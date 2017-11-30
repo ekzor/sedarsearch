@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from datetime import datetime,timedelta
 import re
 from HTMLParser import HTMLParser
@@ -144,9 +146,7 @@ if __name__ == '__main__':
   argparser.add_argument("-w", "--web", help="open the results in your web browser", action="store_true")
   argparser.add_argument("-m", "--mute",  help="hide status messages as the script executes", action="store_true", default=False)
   args = argparser.parse_args()
-  
-  cf = ConfigParser.ConfigParser()
-  
+    
   if args.end == 'today':
     args.end = datetime.today().date().isoformat()
   s = SedarSearch(args.company,args.days,args.end,args.sort,not args.mute)
