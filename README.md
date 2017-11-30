@@ -14,6 +14,8 @@ in:
 
 out:
 ```
+Connecting...
+Success! Parsing...
 Company            Date         Time         Title                             Age
 -----------------  -----------  -----------  --------------------------------  --------------
 Some Company Inc.  Nov 23 2017  17:55:28 ET  Material change report - English  3d 22h 33m 35s
@@ -24,3 +26,4 @@ Some Company Inc.  Nov 23 2017  17:55:28 ET  Material change report - English  3
 * -e DATE, --end DATE: iso date, default: today. the endpoint of the search
 * -s OPT, --sort OPT: choose one of {FilingDate,DocType,Issuer}, default: FilingDate how to sort the search results. uses SEDAR's search options
 * -w, --web: open the search results in your default web browser. this application does not download SEDAR filings, so if you want to click on something, this is a shortcut to the search result page
+* -m, --mute: stop the application from printing status updates (does not suppress the result table)
