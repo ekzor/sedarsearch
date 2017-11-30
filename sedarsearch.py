@@ -7,6 +7,7 @@ import pytz
 import requests
 from tabulate import tabulate
 
+from verbosity import Verbosity
 
 class SedarSearch(object):
 
@@ -16,7 +17,7 @@ class SedarSearch(object):
   #sort types are based on the radio button choices in the search form; data is not sorted by this script
   _VALID_SORT_TYPES = ['FilingDate','DocType','Issuer']
 
-  def __init__(self,company_name,period_days=7,date_to=datetime.today(),sort_by='FilingDate'):
+  def __init__(self,company_name,period_days=7,date_to=datetime.today(),sort_by='FilingDate',verbosity=True):
 
     self.company_name = company_name
     
@@ -35,12 +36,16 @@ class SedarSearch(object):
     
     self.params = self.construct_params()
     
+    self.vlog = Verbosity(verbosity)
+    
+    self.vlog.print_("Connecting...")
     try:
       r = self.run_query()
     except:
       print "Query failed. Are you connected to the internet?"
       return false
     
+    self.vlog.print_("Success! Parsing...")
     #store parsed results
     self.data = self.parse_result(r.text)
     
@@ -137,13 +142,14 @@ if __name__ == '__main__':
   argparser.add_argument("-e", "--end", help="what date to search up to (default today)", default='today')
   argparser.add_argument("-s", "--sort", help="criteria to sort the search by", choices=SedarSearch._VALID_SORT_TYPES, default=SedarSearch._VALID_SORT_TYPES[0])
   argparser.add_argument("-w", "--web", help="open the results in your web browser", action="store_true")
+  argparser.add_argument("-m", "--mute",  help="hide status messages as the script executes", action="store_true", default=False)
   args = argparser.parse_args()
   
   cf = ConfigParser.ConfigParser()
   
   if args.end == 'today':
     args.end = datetime.today().date().isoformat()
-  s = SedarSearch(args.company,args.days,args.end,args.sort)
+  s = SedarSearch(args.company,args.days,args.end,args.sort,not args.mute)
   
   if args.web:
     import webbrowser
